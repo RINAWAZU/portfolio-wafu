@@ -1,0 +1,70 @@
+/* RIN Portfolio 和風リメイク — 確定トークン v1.0 (2026-09-15) */
+/* `ポートフォリオサイト リメイク/tokens.css` を唯一の真実として転記（設計書 §3-1）。 */
+:root {
+  /* 色 */
+  --sumi: #0e0f0d; /* 墨   ベース（木目写真の下地） */
+  --matsuba: #1b2a22; /* 松葉 Works 面のティント・カード面 */
+  --matsuba-bright: #4f7a5a; /* 松葉（明）現在地・アクティブ表示のみ */
+  --kinari: #e3dbc8; /* 生成 技・歴・価 の和紙面 */
+  --gofun: #f2efe6; /* 胡粉 墨面のテキスト */
+  --kincha: #b79a5b; /* 金茶 線・小さな文字のみ。面で塗らない */
+  --shinshu: #8c3a31; /* 真朱 落款「済」と生成面の欧文ラベルのみ */
+
+  /* 面 */
+  /*
+   * 木目写真は WoodBackdrop の固定1枚だけが持つ（設計書 §9-3「同じ床の上を移動している感覚」）。
+   * ここで url() を書くと next/image 経由の最適化版とは別に生ファイルがもう一度読まれ、
+   * 実測で +81KB を LCP と同時に奪っていた。面はティントだけを重ねる。
+   * 作の松葉は「墨48%を重ねた木目」の上に乗るため、原案の .78 から .72 に緩めて
+   * 見た目の濃さを合わせている。
+   */
+  --bg-wood: transparent;
+  --bg-works: rgba(27, 42, 34, 0.72);
+  --bg-washi: var(--kinari); /* + washi.png multiply 0.35 */
+  --hairline: rgba(226, 219, 200, 0.15);
+  --hairline-on-kinari: rgba(14, 15, 13, 0.15);
+
+  /* 書体 */
+  --font-brush: 'Yuji Syuku', serif; /* ロゴ「麟」・一文字見出し・我の紹介文・序のサブコピー・モバイル縦ナビ */
+  --font-mincho: 'Shippori Mincho B1', serif; /* 和文見出し 600 / 0.08em / lh 1.9 */
+  --font-latin: 'Marcellus', serif; /* 欧文ラベル small caps / 0.24em / uppercase */
+  --font-body: 'Zen Kaku Gothic New', sans-serif; /* 和文本文 400 / 0.04em / lh 2.0 */
+  --font-mono: 'JetBrains Mono', monospace; /* 年号・技術スタック・番号 */
+
+  /* サイズ */
+  --fs-display: clamp(4rem, 12vw, 9rem);
+  --fs-h1: clamp(2rem, 5vw, 3.5rem);
+  --fs-h2: clamp(1.5rem, 3vw, 2.25rem);
+  --fs-body: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  --fs-caption: 0.75rem;
+
+  /* レイアウト */
+  --max-w: 1440px;
+  --gutter: 24px;
+  --section-pad-desktop: 200px;
+  --section-pad-mobile: 96px;
+  --radius: 0px;
+  --nav-w: 96px; /* 左固定の縦ナビ幅 */
+
+  /* モーション */
+  --ease-out-slow: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-reveal: 1.2s;
+  --dur-flip: 0.8s; /* 面の反転（設計書 §9-3 により未使用。§12-1 #7） */
+  --dur-hover: 0.4s;
+  --dur-thumb: 1.2s;
+}
+
+/*
+ * 季節の実行時変数（設計書 §3-3, §5-3）。
+ * JS（SeasonController）が rAF 内で documentElement に直接書き込む。
+ * 初期値は「序＝新緑」（スクロール0の状態）に一致させておく。
+ */
+:root {
+  --season-op-spring: 1;
+  --season-op-summer: 0;
+  --season-op-autumn: 0;
+  --season-op-winter: 0;
+  --season-glow: rgba(200, 214, 190, 0.1);
+  --season-beam: rgba(183, 154, 91, 0.6);
+  --season-filter: saturate(1.08) brightness(1.04);
+}
