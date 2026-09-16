@@ -10,7 +10,8 @@
     "font:subset": "bash scripts/subset-font.sh",
     "test": "vitest run",
     "font:subset:jp": "node scripts/subset-jp-fonts.mjs",
-    "bonsai:optimize": "bash scripts/optimize-bonsai.sh"
+    "bonsai:optimize": "bash scripts/optimize-bonsai.sh",
+    "check:contrast": "node scripts/check-contrast.mjs"
   },
   "dependencies": {
     "@react-three/drei": "^10.7.8",

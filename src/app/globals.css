@@ -13,6 +13,9 @@
   --color-gofun: var(--gofun);
   --color-kincha: var(--kincha);
   --color-shinshu: var(--shinshu);
+  --color-matsuba-on-dark: var(--matsuba-on-dark);
+  --color-matsuba-on-kinari: var(--matsuba-on-kinari);
+  --color-shinshu-on-dark: var(--shinshu-on-dark);
   --color-hairline: var(--hairline);
   --color-hairline-dark: var(--hairline-on-kinari);
 

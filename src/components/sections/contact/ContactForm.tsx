@@ -147,7 +147,7 @@ export function ContactForm() {
           className="resize-none bg-transparent font-body text-body text-gofun placeholder:text-gofun/55"
         />
         {errors.brief && (
-          <span id="contact-brief-error" role="alert" className="font-mono text-[11px] text-shinshu">
+          <span id="contact-brief-error" role="alert" className="font-mono text-[11px] text-shinshu-on-dark">
             {errors.brief}
           </span>
         )}
@@ -159,7 +159,7 @@ export function ContactForm() {
       */}
       <p
         role="status"
-        className={`font-mono text-xs ${status === 'success' ? 'text-matsuba-bright' : 'text-shinshu'} ${
+        className={`font-mono text-xs ${status === 'success' ? 'text-matsuba-on-dark' : 'text-shinshu-on-dark'} ${
           status === 'success' || status === 'error' || status === 'notConfigured' ? '' : 'sr-only'
         }`}
       >
@@ -229,7 +229,7 @@ function Field({
         className="bg-transparent font-body text-body text-gofun placeholder:text-gofun/55"
       />
       {error && (
-        <span id={`${id}-error`} role="alert" className="font-mono text-[11px] text-shinshu">
+        <span id={`${id}-error`} role="alert" className="font-mono text-[11px] text-shinshu-on-dark">
           {error}
         </span>
       )}
