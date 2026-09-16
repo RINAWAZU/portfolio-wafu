@@ -22,8 +22,10 @@ const SOURCES = [
     label: '木目背景',
     input: `${MATERIALS}/IMG_4359.PNG`,
     output: 'public/assets/wood.webp',
-    // 全画面に敷く（sizes="100vw"）。2560 あれば 2x のデスクトップと横向きの iPhone を賄える。
-    resize: { width: 2560 },
+    // 全画面に object-cover で敷く。横長（1.887:1）なので縦長の画面では「高さ基準」で
+    // 拡大され、描画幅が画面幅の約4倍（390x844 の iPhone で 1593 CSSpx）になる。
+    // next/image の deviceSizes 上限が 3840 なので、そこに合わせて供給する。
+    resize: { width: 3840 },
     quality: 82,
   },
   {

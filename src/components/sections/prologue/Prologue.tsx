@@ -3,6 +3,7 @@
 import { KiriGlow } from '@/components/common/KiriGlow';
 import { useLang } from '@/hooks/useLang';
 import { getDictionary } from '@/lib/i18n';
+import { SHOW_BONSAI } from '@/lib/features';
 import { ScrollCue } from './ScrollCue';
 
 /**
@@ -33,11 +34,13 @@ export function Prologue() {
             上下の余白も含めて `vh` の上限を入れているのは、画面高が低いノートPCで
             タグライン以下が画面外へ押し出されるのを防ぐため（BonsaiStage のコメント参照）。
           */}
-          <div
-            aria-hidden="true"
-            className="ml-[min(8vw,120px)] w-[min(34vw,460px,30vh)] max-w-full"
-            style={{ aspectRatio: '158 / 248' }}
-          />
+          {SHOW_BONSAI && (
+            <div
+              aria-hidden="true"
+              className="ml-[min(8vw,120px)] w-[min(34vw,460px,30vh)] max-w-full"
+              style={{ aspectRatio: '158 / 248' }}
+            />
+          )}
           <h1 className="mt-[min(72px,8vh)] font-mincho text-[clamp(2rem,3.4vw,3rem)] leading-[1.9] font-semibold tracking-mincho text-gofun">
             {t.tagline}
           </h1>

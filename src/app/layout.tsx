@@ -8,6 +8,7 @@ import { LangProvider } from '@/providers/LangProvider';
 import { SmoothScrollProvider } from '@/providers/SmoothScrollProvider';
 import { SeasonController } from '@/components/bonsai/SeasonController';
 import { BonsaiStage } from '@/components/bonsai/BonsaiStage';
+import { SHOW_BONSAI } from '@/lib/features';
 import { WoodBackdrop } from '@/components/layout/WoodBackdrop';
 import { SideNav } from '@/components/layout/SideNav';
 import { LangSwitch } from '@/components/layout/LangSwitch';
@@ -100,7 +101,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
           <SmoothScrollProvider>
             <SeasonController />
             <WoodBackdrop />
-            <BonsaiStage />
+            {SHOW_BONSAI && <BonsaiStage />}
             <SideNav />
             <LangSwitch />
             {children}
