@@ -35,12 +35,29 @@
   --hairline: rgba(226, 219, 200, 0.15);
   --hairline-on-kinari: rgba(14, 15, 13, 0.15);
 
-  /* 書体 */
-  --font-brush: 'Yuji Syuku', serif; /* ロゴ「麟」・一文字見出し・我の紹介文・序のサブコピー・モバイル縦ナビ */
-  --font-mincho: 'Shippori Mincho B1', serif; /* 和文見出し 600 / 0.08em / lh 1.9 */
-  --font-latin: 'Marcellus', serif; /* 欧文ラベル small caps / 0.24em / uppercase */
-  --font-body: 'Zen Kaku Gothic New', sans-serif; /* 和文本文 400 / 0.04em / lh 2.0 */
-  --font-mono: 'JetBrains Mono', monospace; /* 年号・技術スタック・番号 */
+  /*
+   * 書体。値は **next/font が生成した CSS 変数**を参照すること（`var(--font-*)`）。
+   *
+   * 書体名を直接書いてはいけない。next/font/local は `@font-face` の family を
+   * ハッシュ名（`shippori` / `yuji` / `zenKaku`）で生成するため、TOKENS.md の
+   * 表記（'Shippori Mincho B1' 等）とは一致しない。ここで名前を直書きすると、
+   * この :root は globals.css の `@theme` より**後ろ**に出力される（@theme は
+   * Tailwind のテーマレイヤーに入るため）ぶんカスケードで勝ってしまい、
+   * 一致しない family 名が最終値になる。
+   *
+   * 実測（2026-09-16 / T28）: この状態では和文3書体がどれも適用されず、
+   * 見出しも筆文字も本文もシステムの代替書体で描画されていた。さらに Yuji と
+   * Zen Kaku は preload 済みのため、計 87KB を読んだ上で一度も使わない状態だった。
+   * 欧文2書体（Marcellus / JetBrains Mono）は next/font/google が本来の family 名を
+   * 保つため偶然一致しており、これが発覚を遅らせた。
+   *
+   * 第2引数は next/font が読めなかったときの保険（ローカルに導入済みなら効く）。
+   */
+  --font-brush: var(--font-yuji, 'Yuji Syuku'), serif; /* ロゴ「麟」・一文字見出し・我の紹介文・序のサブコピー・モバイル縦ナビ */
+  --font-mincho: var(--font-shippori, 'Shippori Mincho B1'), serif; /* 和文見出し 600 / 0.08em / lh 1.9 */
+  --font-latin: var(--font-marcellus, 'Marcellus'), serif; /* 欧文ラベル small caps / 0.24em / uppercase */
+  --font-body: var(--font-zen-kaku, 'Zen Kaku Gothic New'), sans-serif; /* 和文本文 400 / 0.04em / lh 2.0 */
+  --font-mono: var(--font-jetbrains, 'JetBrains Mono'), monospace; /* 年号・技術スタック・番号 */
 
   /* サイズ */
   --fs-display: clamp(4rem, 12vw, 9rem);
