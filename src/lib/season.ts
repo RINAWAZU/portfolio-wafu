@@ -155,3 +155,41 @@ export function seasonEnvironmentAt(blend: SeasonBlend): SeasonEnvironment {
     filter: `saturate(${saturate.toFixed(3)}) brightness(${brightness.toFixed(3)}) sepia(${sepia.toFixed(3)})`,
   };
 }
+
+/** WebGL 側（BonsaiModel）が受け取る「場の光」。CSS では表現できない立体の陰影だけを担う。 */
+export interface SeasonLight {
+  /** 主光源の色。three.js の Color.setRGB にそのまま渡せるよう 0..1 に正規化済み */
+  readonly r: number;
+  readonly g: number;
+  readonly b: number;
+  /** 主光源（斜光）の強さ。レリーフの凹凸はこの光の角度と強さでしか立たない */
+  readonly keyIntensity: number;
+  /** 環境光の強さ。陰を潰しすぎない範囲で brightness に追従させる */
+  readonly ambientIntensity: number;
+}
+
+/**
+ * SeasonBlend から 3D 用の光を補間して返す（§5-4 の「場の光」の WebGL 版）。
+ *
+ * 彩度・明度は CSS の `--season-filter` が Canvas ごと担当するため、ここでは扱わない。
+ * 静止画実装（BonsaiImage）と 3D 実装で季節の見え方がズレないよう、色の定義は
+ * `SEASON_ENVIRONMENT` ただ1つを情報源にしている。
+ */
+export function seasonLightAt(blend: SeasonBlend): SeasonLight {
+  const from = SEASON_ENVIRONMENT[blend.from];
+  const to = SEASON_ENVIRONMENT[blend.to];
+  const { t } = blend;
+
+  const glowAlpha = lerp(from.glow.a, to.glow.a, t);
+  const brightness = lerp(from.filter.brightness, to.filter.brightness, t);
+
+  return {
+    r: lerp(from.glow.r, to.glow.r, t) / 255,
+    g: lerp(from.glow.g, to.glow.g, t) / 255,
+    b: lerp(from.glow.b, to.glow.b, t) / 255,
+    // glow の不透明度（0.06〜0.14）はそのままでは光量として弱すぎる。
+    // 季節差が陰影として読み取れる 1.8〜2.7 の範囲へ写像する。
+    keyIntensity: 1.4 + glowAlpha * 9,
+    ambientIntensity: brightness * 0.55,
+  };
+}
