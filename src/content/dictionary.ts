@@ -17,6 +17,11 @@ export interface Dictionary {
     readonly sub: string;
   };
   readonly about: {
+    /**
+     * 我の3行ステートメント。日本語は**句読点を入れない**（社長指摘・2026-09-16）。
+     * 縦書きで読点を打つと1文字分の空きがそのまま行の途中に出て流れが切れ、
+     * 短い3行に句点まで付くと文章の断片のように見える。標語として詰めて置く。
+     */
     readonly statement: readonly [string, string, string];
     readonly bio: readonly [string, string];
   };
@@ -80,7 +85,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dictionary>> = {
       sub: 'Web / iOS / AI 統合 ・ 東京を拠点に活動するフリーランス',
     },
     about: {
-      statement: ['作業ではなく、クラフト。', '界面を、建築として設計する。', '質感も、コードと同じ重さで。'],
+      statement: ['作業ではなくクラフト', '界面を建築として設計する', '質感もコードと同じ重さで'],
       bio: [
         '芝浦工業大学 システム理工学部 在学中（休学・フリーランス専念）。',
         '2027年4月、金融系IT企業に新卒入社予定。',
