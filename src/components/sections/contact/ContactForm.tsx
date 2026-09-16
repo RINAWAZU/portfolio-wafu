@@ -130,7 +130,7 @@ export function ContactForm() {
         disabled={isSubmitting}
       />
       <div className="flex flex-col gap-1.5 border-b border-hairline pb-1.5">
-        <label htmlFor="contact-brief" className="font-mono text-[11px] tracking-[.2em] text-gofun/50">
+        <label htmlFor="contact-brief" className="font-mono text-[11px] tracking-[.2em] text-gofun/60">
           {f.briefLabel}
         </label>
         <textarea
@@ -144,7 +144,7 @@ export function ContactForm() {
           maxLength={CONTACT_MAX_LENGTH.brief}
           aria-invalid={Boolean(errors.brief)}
           aria-describedby={errors.brief ? 'contact-brief-error' : undefined}
-          className="resize-none bg-transparent font-body text-body text-gofun placeholder:text-gofun/35"
+          className="resize-none bg-transparent font-body text-body text-gofun placeholder:text-gofun/55"
         />
         {errors.brief && (
           <span id="contact-brief-error" role="alert" className="font-mono text-[11px] text-shinshu">
@@ -211,7 +211,7 @@ function Field({
 }: FieldProps) {
   return (
     <div className="flex flex-col gap-1.5 border-b border-hairline pb-1.5">
-      <label htmlFor={id} className="font-mono text-[11px] tracking-[.2em] text-gofun/50">
+      <label htmlFor={id} className="font-mono text-[11px] tracking-[.2em] text-gofun/60">
         {label}
       </label>
       <input
@@ -226,7 +226,7 @@ function Field({
         maxLength={maxLength}
         aria-invalid={Boolean(error)}
         aria-describedby={error ? `${id}-error` : undefined}
-        className="bg-transparent font-body text-body text-gofun placeholder:text-gofun/35"
+        className="bg-transparent font-body text-body text-gofun placeholder:text-gofun/55"
       />
       {error && (
         <span id={`${id}-error`} role="alert" className="font-mono text-[11px] text-shinshu">

@@ -35,7 +35,7 @@ export function WorkTanzaku({ work }: WorkTanzakuProps) {
     <div
       className={`flex flex-col items-center justify-between gap-4 py-6 ${
         isVertical ? 'w-[104px] flex-none' : 'min-w-[110px] flex-1'
-      } ${isDelivered ? 'border border-hairline bg-sumi/35' : 'border border-dashed border-hairline/70 text-gofun/50'}`}
+      } ${isDelivered ? 'border border-hairline bg-sumi/35' : 'border border-dashed border-hairline/70 text-gofun/60'}`}
     >
       <span className="font-mono text-[11px] text-kincha">{work.no}</span>
       <Tategaki
@@ -45,7 +45,7 @@ export function WorkTanzaku({ work }: WorkTanzakuProps) {
       >
         {pickText(work.title, lang)}
       </Tategaki>
-      <Tategaki className={`font-mono text-[10px] tracking-[.15em] text-gofun/50 ${isVertical ? 'whitespace-nowrap' : ''}`}>
+      <Tategaki className={`font-mono text-[10px] tracking-[.15em] text-gofun/60 ${isVertical ? 'whitespace-nowrap' : ''}`}>
         {meta}
       </Tategaki>
       {isDelivered ? (

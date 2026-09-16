@@ -19,13 +19,13 @@ export function WorkRow({ work }: WorkRowProps) {
   return (
     <div
       className={`flex items-center gap-2.5 px-3 py-2.5 ${
-        isDelivered ? 'border border-hairline bg-sumi/35' : 'border border-dashed border-hairline/70 text-gofun/50'
+        isDelivered ? 'border border-hairline bg-sumi/35' : 'border border-dashed border-hairline/70 text-gofun/60'
       }`}
     >
       <span className="font-mono text-[11px] text-kincha">{work.no}</span>
       <span className="flex-1 font-mincho text-[13px] tracking-mincho text-gofun">
         {pickText(work.title, lang)}
-        <span className="mt-0.5 block font-mono text-[10px] tracking-[.15em] text-gofun/50">{meta}</span>
+        <span className="mt-0.5 block font-mono text-[10px] tracking-[.15em] text-gofun/60">{meta}</span>
       </span>
       {isDelivered && <SealMark char="済" label={pickText(DELIVERED_LABEL, lang)} size="sm" />}
     </div>

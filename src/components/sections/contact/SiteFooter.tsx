@@ -19,7 +19,7 @@ export function SiteFooter() {
         ))}
       </div>
       <div className="flex items-center gap-3.5">
-        <span className="font-mono text-[11px] tracking-[.15em] text-gofun/45">© RIN 2026 · TOKYO</span>
+        <span className="font-mono text-[11px] tracking-[.15em] text-gofun/60">© RIN 2026 · TOKYO</span>
         <SealMark char="麟" label="RIN" size="sm" />
       </div>
     </div>

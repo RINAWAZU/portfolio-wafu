@@ -20,7 +20,7 @@ function SocialLinkRow({ link }: { readonly link: SocialLink }) {
       rel={link.external ? 'noopener noreferrer' : undefined}
       className="flex items-center justify-between border-b border-hairline pb-1.5 transition-colors duration-[0.4s] ease-out hover:text-kincha"
     >
-      <span className="text-gofun/50 uppercase">{link.label}</span>
+      <span className="text-gofun/60 uppercase">{link.label}</span>
       <span>
         {handleFromHref(link.href)}
         {link.external && ' ↗'}
@@ -38,7 +38,7 @@ export function ContactLinks() {
   return (
     <div className="mt-9 flex flex-col gap-2.5 font-mono text-xs tracking-[.1em]">
       <div className="flex items-center justify-between border-b border-hairline pb-1.5">
-        <span className="text-gofun/50">EMAIL</span>
+        <span className="text-gofun/60">EMAIL</span>
         <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors duration-[0.4s] ease-out hover:text-kincha">
           {CONTACT_EMAIL}
         </a>

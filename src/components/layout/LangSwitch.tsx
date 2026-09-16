@@ -33,7 +33,10 @@ export function LangSwitch() {
         >
           EN
         </button>
-        <span className={onKinari ? 'text-sumi/40' : 'text-gofun/30'}>/</span>
+        {/* 2つのボタンを視覚的に分けるだけの装飾。読み上げると「EN スラッシュ JP」になるため外す。 */}
+        <span aria-hidden="true" className={onKinari ? 'text-sumi/40' : 'text-gofun/30'}>
+          /
+        </span>
         <button
           type="button"
           onClick={() => setLang('ja')}
