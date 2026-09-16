@@ -54,10 +54,10 @@ export const WORKS: readonly Work[] = [
     categoryLabel: 'WEB',
     year: 2026,
     status: 'delivered',
-    stack: ['React', 'TypeScript', 'Spline', 'GSAP', 'Framer Motion'],
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Lenis'],
     description: {
-      ja: '全案件の入口。3Dモデル・スクロールアニメ・Digital Luxury の体現。案件獲得の核となるブランドサイト。',
-      en: 'The hub for every other project. 3D, scroll choreography, Digital Luxury concept — engineered as the lead-funnel for freelance briefs.',
+      ja: '全作品の入口。和紙・筆文字・落款で構成した和風のブランドサイト。スクロールに連動する演出と多言語切替を実装。',
+      en: 'The entry point to every other work. A Japanese-styled brand site built from washi, brush glyphs and seal marks, with scroll-linked motion and bilingual switching.',
     },
   },
   {
