@@ -10,7 +10,7 @@ import Image from 'next/image';
 export function WoodBackdrop() {
   return (
     <div aria-hidden="true" className="fixed inset-0 z-[-2] overflow-hidden bg-sumi">
-      <Image src="/assets/wood.webp" alt="" fill priority sizes="100vw" className="object-cover" />
+      <Image src="/assets/wood.webp" alt="" fill priority quality={90} sizes="100vw" className="object-cover" />
       <div className="absolute inset-0 bg-sumi/48" />
     </div>
   );

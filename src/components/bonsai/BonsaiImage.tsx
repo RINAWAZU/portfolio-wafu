@@ -30,6 +30,7 @@ export function BonsaiImage({ asset }: BonsaiImageProps) {
           // 差し替えるだけで済むはずの後日フェーズに性能の地雷を残さないため、今のうちに分けておく。
           priority={season === 'spring'}
           loading={season === 'spring' ? undefined : 'lazy'}
+          quality={90}
           sizes="(min-width: 768px) 34vw, 70vw"
           className="object-cover"
           style={{ opacity: `var(--season-op-${season})`, willChange: 'opacity' }}
