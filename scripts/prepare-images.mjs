@@ -23,10 +23,12 @@ const SOURCES = [
     input: `${MATERIALS}/IMG_4359.PNG`,
     output: 'public/assets/wood.webp',
     // 全画面に object-cover で敷く。横長（1.887:1）なので縦長の画面では「高さ基準」で
-    // 拡大され、描画幅が画面幅の約4倍（390x844 の iPhone で 1593 CSSpx）になる。
-    // next/image の deviceSizes 上限が 3840 なので、そこに合わせて供給する。
-    resize: { width: 3840 },
-    quality: 82,
+    // 拡大され、描画幅が画面幅の約4倍になる。実測で必要な実ピクセル幅は
+    // iPhone 縦(390x844 DPR3) が 4778、4K(2560x1440 DPR2) が 5435。
+    // 元素材の 4680 をそのまま使い切る（next/image は元素材を超えて拡大しない）。
+    resize: { width: 4680 },
+    // next/image が再エンコードするため、中間ファイルは高めに保って二重劣化を抑える。
+    quality: 88,
   },
   {
     label: '盆栽',
