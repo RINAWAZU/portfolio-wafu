@@ -1,5 +1,5 @@
 import { SealMark } from '@/components/common/SealMark';
-import { PLANNED_LABEL } from '@/content/works';
+import { STATUS_LABEL } from '@/content/works';
 import { useLang } from '@/hooks/useLang';
 import { pickText } from '@/lib/i18n';
 import type { Work } from '@/types/content';
@@ -8,13 +8,14 @@ export interface WorkRowProps {
   readonly work: Work;
 }
 
-const DELIVERED_LABEL = { ja: '納品済み', en: 'Delivered' } as const;
+// 「納品」は受託を思わせる語なので使わない。ここは自主制作の作品集である。
+const COMPLETED_LABEL = { ja: '完成', en: 'Completed' } as const;
 
 /** 短冊1行(モバイル・横書き)。設計書 §6-4。 */
 export function WorkRow({ work }: WorkRowProps) {
   const { lang } = useLang();
   const isDelivered = work.status === 'delivered';
-  const meta = isDelivered ? `${work.categoryLabel} · ${work.year}` : pickText(PLANNED_LABEL, lang);
+  const meta = isDelivered ? `${work.categoryLabel} · ${work.year}` : pickText(STATUS_LABEL[work.status], lang);
 
   return (
     <div
@@ -27,7 +28,7 @@ export function WorkRow({ work }: WorkRowProps) {
         {pickText(work.title, lang)}
         <span className="mt-0.5 block font-mono text-[10px] tracking-[.15em] text-gofun/60">{meta}</span>
       </span>
-      {isDelivered && <SealMark char="済" label={pickText(DELIVERED_LABEL, lang)} size="sm" />}
+      {isDelivered && <SealMark char="済" label={pickText(COMPLETED_LABEL, lang)} size="sm" />}
     </div>
   );
 }

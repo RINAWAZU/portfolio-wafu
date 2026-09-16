@@ -24,7 +24,10 @@ export interface Dictionary {
     readonly label: string;
     readonly title: readonly [string, string];
     readonly sub: string;
-    /** 実績カウンター(「十二」)の下に添える2行の補足文(ワイヤーフレーム #3a 参照) */
+    /**
+     * 欧文ラベルの下に添える2行の補足文(ワイヤーフレーム #3a 参照)。
+     * 受託実績と誤解されない言い回しにすること(社長指摘・2026-09-16)。
+     */
     readonly blurb: readonly [string, string];
   };
   readonly skills: {
@@ -84,10 +87,10 @@ export const DICTIONARY: Readonly<Record<Lang, Dictionary>> = {
       ],
     },
     works: {
-      label: '制作実績',
+      label: '作品',
       title: ['動き続ける', 'ポートフォリオ。'],
-      sub: '完成3件、開発中3件。それぞれ異なる課題に対する明確なスタディとして — ブランドサイト、業務ツール、AIサーフェス、コーポレートWebなど。',
-      blurb: ['実際にご依頼いただき', 'リリースされた案件'],
+      sub: '完成3件、制作中1件、構想中2件。いずれも依頼を受けた案件ではなく、扱える領域を示すために自ら設計した作品です — ブランドサイト、業務ツール、AIサーフェス、コーポレートWeb。',
+      blurb: ['技術の幅を示すために', '自ら企画して作った作品'],
     },
     skills: {
       label: 'Tech Stack',
@@ -144,8 +147,8 @@ export const DICTIONARY: Readonly<Record<Lang, Dictionary>> = {
     works: {
       label: 'Selected Work',
       title: ['A portfolio in', 'motion.'],
-      sub: 'Three shipped, three in flight. Each project is a deliberate study in a specific brief — brand site, business tool, AI surface, corporate web.',
-      blurb: ['Projects actually commissioned', 'and shipped to clients'],
+      sub: 'Three complete, one in build, two in design. None of these are client commissions — each is a self-directed study in a specific problem: brand site, business tool, AI surface, corporate web.',
+      blurb: ['Self-directed work, built to', 'show range and craft'],
     },
     skills: {
       label: 'Tech Stack',

@@ -10,7 +10,11 @@ export type SectionId =
   | 'pricing'
   | 'contact';
 
-export type WorkStatus = 'delivered' | 'planned';
+/**
+ * 作品の状態。ここは「受託案件の納品状況」ではなく、自主制作の進み具合を表す
+ * （2026-09-16 社長指摘：本セクションは受託実績ではなく作品集である）。
+ */
+export type WorkStatus = 'delivered' | 'in-progress' | 'planned';
 export type WorkCategory = 'web' | 'ios' | 'lp' | 'saas' | 'ai';
 
 export interface Work {
@@ -24,7 +28,7 @@ export interface Work {
   readonly categoryLabel: string;
   /** planned は null */
   readonly year: number | null;
-  /** 'delivered' のときのみ落款「済」 */
+  /** 'delivered' のときのみ落款「済」。他は破線枠で状態ラベルを出す */
   readonly status: WorkStatus;
   readonly stack: readonly string[];
   /** 現行データの保全用。初期実装では未描画（§12-3） */

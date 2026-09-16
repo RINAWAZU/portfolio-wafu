@@ -1,16 +1,29 @@
-import type { Work } from '@/types/content';
 import type { LocalizedText } from '@/types/i18n';
-
-/** `status: 'planned'` の短冊に出す小さなラベル(ワイヤーフレーム「予定」)。 */
-export const PLANNED_LABEL: LocalizedText = { ja: '予定', en: 'Planned' };
+import type { Work, WorkStatus } from '@/types/content';
 
 /**
- * `site_old/rin-portfolio/src/data.js` の WORKS を移植（§7-2）。
- * 件数・順序は変更しない。サムネ・カード用の `size` `mark` は短冊表示に不要なため破棄。
+ * 短冊に出す状態ラベル。'delivered' は「カテゴリ · 年」を出すためここには持たない。
  *
- * `year` は旧データに存在しなかったフィールド（型で新設）。'delivered' の3件は
- * サイト自体の更新時期（2026年）を暫定値として入れている。正式な年が確定したら
- * ここを更新すること（デザイン確定事項ではなく、コーダー側の暫定補完）。
+ * 「納品」「案件」といった受託を思わせる語は使わない。このセクションは
+ * 受けた仕事の実績ではなく、技術を示すために自ら作った作品の一覧である
+ * （2026-09-16 社長指摘）。
+ */
+export const STATUS_LABEL: Readonly<Record<Exclude<WorkStatus, 'delivered'>, LocalizedText>> = {
+  'in-progress': { ja: '制作中', en: 'In progress' },
+  planned: { ja: '構想中', en: 'In design' },
+};
+
+/**
+ * 掲載する作品。
+ *
+ * 元は `site_old/rin-portfolio/src/data.js` の WORKS を移植したものだが、
+ * 2026-09-16 に社長判断で内容を改訂した。
+ *  - 「業種別マルチLP集」は制作していないため削除し、以降を繰り上げ
+ *  - 「Three.js × 架空企業Webサイト」は完成済みのため 'delivered' へ
+ *  - 「習慣タスク管理アプリ」を 'in-progress' で追加
+ *
+ * このファイルにオブジェクトを1件足すだけで短冊が1枚増える（件数はどこにも
+ * ハードコードしない）。`no` は表示順の連番なので、増減させたら振り直すこと。
  */
 export const WORKS: readonly Work[] = [
   {
@@ -48,25 +61,8 @@ export const WORKS: readonly Work[] = [
     },
   },
   {
-    id: 'multi-industry-lp',
-    no: '03',
-    title: {
-      ja: '業種別マルチLP集',
-      en: 'Multi-Industry LP Set',
-    },
-    category: 'lp',
-    categoryLabel: 'LP',
-    year: 2026,
-    status: 'delivered',
-    stack: ['HTML', 'CSS', 'JS', 'React'],
-    description: {
-      ja: 'クラウドワークス案件最多ジャンル対応。飲食・美容・パーソナルジム等、複数業種のLPを制作。',
-      en: 'Three landing pages — F&B, beauty, fitness — to demonstrate range against the highest-volume CrowdWorks category.',
-    },
-  },
-  {
     id: 'saas-admin-dashboard',
-    no: '04',
+    no: '03',
     title: {
       ja: 'SaaS風 管理ダッシュボード',
       en: 'SaaS Admin Dashboard',
@@ -83,7 +79,7 @@ export const WORKS: readonly Work[] = [
   },
   {
     id: 'ai-chatbot-web-app',
-    no: '05',
+    no: '04',
     title: {
       ja: 'AIチャットボット組込Webアプリ',
       en: 'AI Chatbot Web App',
@@ -100,19 +96,36 @@ export const WORKS: readonly Work[] = [
   },
   {
     id: 'threejs-corporate-site',
-    no: '06',
+    no: '05',
     title: {
       ja: 'Three.js × 架空企業Webサイト',
       en: 'Three.js × Fictional Corporate Site',
     },
     category: 'web',
     categoryLabel: 'WEB',
-    year: null,
-    status: 'planned',
+    year: 2026,
+    status: 'delivered',
     stack: ['React', 'TypeScript', 'Three.js', 'GSAP'],
     description: {
-      ja: '03で培った Three.js 技術を応用した架空スタートアップの高品質コーポレートサイト。',
-      en: 'A high-quality corporate site for a fictional startup — applying the Three.js system from this portfolio at production scale.',
+      ja: 'Three.js を応用した架空スタートアップのコーポレートサイト。3D表現を実運用規模で成立させる検証。',
+      en: 'A corporate site for a fictional startup — proving out Three.js at production scale.',
+    },
+  },
+  {
+    id: 'habit-tracker-web-app',
+    no: '06',
+    title: {
+      ja: '習慣タスク管理Webアプリ',
+      en: 'Habit & Task Manager',
+    },
+    category: 'web',
+    categoryLabel: 'WEB',
+    year: null,
+    status: 'in-progress',
+    stack: ['React', 'TypeScript', 'Tailwind CSS', 'Supabase'],
+    description: {
+      ja: '習慣・今日のTodo・週間月間計画・達成率の可視化を1つにまとめたセルフマネジメントアプリ。普段はモノクロ、達成時だけ演出が弾ける構成。',
+      en: 'A self-management app that unifies habits, daily todos, weekly and monthly planning, and progress visualisation. Monochrome at rest; colour breaks out only on completion.',
     },
   },
 ];

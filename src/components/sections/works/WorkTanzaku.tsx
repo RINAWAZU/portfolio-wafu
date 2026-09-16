@@ -1,6 +1,6 @@
 import { SealMark } from '@/components/common/SealMark';
 import { Tategaki } from '@/components/common/Tategaki';
-import { PLANNED_LABEL } from '@/content/works';
+import { STATUS_LABEL } from '@/content/works';
 import { useLang } from '@/hooks/useLang';
 import { pickText } from '@/lib/i18n';
 import type { Work } from '@/types/content';
@@ -9,7 +9,8 @@ export interface WorkTanzakuProps {
   readonly work: Work;
 }
 
-const DELIVERED_LABEL = { ja: '納品済み', en: 'Delivered' } as const;
+// 「納品」は受託を思わせる語なので使わない。ここは自主制作の作品集である。
+const COMPLETED_LABEL = { ja: '完成', en: 'Completed' } as const;
 
 /**
  * 短冊1枚(デスクトップ・縦書き)。設計書 §6-4, §1-4。
@@ -22,7 +23,7 @@ const DELIVERED_LABEL = { ja: '納品済み', en: 'Delivered' } as const;
 export function WorkTanzaku({ work }: WorkTanzakuProps) {
   const { lang } = useLang();
   const isDelivered = work.status === 'delivered';
-  const meta = isDelivered ? `${work.categoryLabel} · ${work.year}` : pickText(PLANNED_LABEL, lang);
+  const meta = isDelivered ? `${work.categoryLabel} · ${work.year}` : pickText(STATUS_LABEL[work.status], lang);
   // `Tategaki` は `en` で横書きへ縮退する(§4-4)。`whitespace-nowrap` は縦書き時の
   // 「1列に収める」トリックであり、横書きでは長い英文タイトルが折り返さずに
   // 隣の短冊へはみ出して重なってしまう(Playwright での実測で発覚)。
@@ -49,7 +50,7 @@ export function WorkTanzaku({ work }: WorkTanzakuProps) {
         {meta}
       </Tategaki>
       {isDelivered ? (
-        <SealMark char="済" label={pickText(DELIVERED_LABEL, lang)} size="sm" />
+        <SealMark char="済" label={pickText(COMPLETED_LABEL, lang)} size="sm" />
       ) : (
         <span aria-hidden="true" className="h-6 w-6" />
       )}
