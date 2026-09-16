@@ -15,6 +15,15 @@ const DRACO_DECODER_PATH = '/draco/';
 /** 呼吸の周期（秒）。BonsaiImage の CSS アニメーションと揃える。 */
 const BREATH_PERIOD = 9;
 
+/**
+ * 視線軸まわりの補正回転。
+ *
+ * 厚みの軸を +Z へ向けたあと、絵の「上」がどちらを向くかは幾何情報からは決められない
+ * （どの軸が上かは写真を撮った人しか知らない）。実際に描画して確認した結果、
+ * 180° 回すと正立する。素材を差し替えたときはここを見直すこと。
+ */
+const UPRIGHT_ROTATION_Z = Math.PI;
+
 export interface BonsaiModelProps {
   readonly src: string;
 }
@@ -61,6 +70,9 @@ function prepareGeometry(source: BufferGeometry): BufferGeometry {
 
   // 厚みが +Z / -Z のどちらを向くかは不定。裏返しだと凹んで見えるので向きを揃える。
   if (averageNormalZ(geometry) < 0) geometry.rotateY(Math.PI);
+
+  // ここまでは回転のみ＝鏡像にはならないので、残る誤差は視線軸まわりの回転だけ。
+  geometry.rotateZ(UPRIGHT_ROTATION_Z);
 
   geometry.computeBoundingBox();
   const fitted = (geometry.boundingBox ?? new Box3()).getSize(new Vector3());
@@ -138,7 +150,9 @@ export default function BonsaiModel({ src }: BonsaiModelProps) {
       <Canvas
         // reduced-motion では rAF を回し続けない。季節が変わったときだけ描き直す。
         frameloop={animated ? 'always' : 'demand'}
-        dpr={[1, 1.75]}
+        // 端末の DPR をそのまま使う（上限 2.5）。1.75 に絞ると DPR 3 の iPhone で
+        // 低解像度に描いてから引き伸ばすことになり、輪郭がはっきり粗く見える。
+        dpr={[1, 2.5]}
         camera={{ position: [0, 0, 2.6], fov: 24 }}
         gl={{ antialias: true, alpha: true }}
       >
