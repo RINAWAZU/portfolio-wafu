@@ -3,7 +3,7 @@
 import { KiriGlow } from '@/components/common/KiriGlow';
 import { useLang } from '@/hooks/useLang';
 import { getDictionary } from '@/lib/i18n';
-import { SHOW_BONSAI } from '@/lib/features';
+import { SHOW_BONSAI, SHOW_KIRI_GLOW } from '@/lib/features';
 import { ScrollCue } from './ScrollCue';
 
 /**
@@ -25,7 +25,7 @@ export function Prologue() {
       id="prologue"
       className="relative min-h-screen overflow-hidden pr-6 pl-[calc(var(--spacing-nav)+24px)] md:pr-12 md:pl-[160px]"
     >
-      <KiriGlow />
+      {SHOW_KIRI_GLOW && <KiriGlow />}
       <div className="relative mx-auto grid min-h-screen max-w-page grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,1fr)_auto]">
         <div className="flex flex-col items-start gap-0 pt-[min(100px,11vh)] pb-[min(80px,9vh)] md:pt-[min(140px,15vh)] md:pb-[min(120px,13vh)]">
           {/*

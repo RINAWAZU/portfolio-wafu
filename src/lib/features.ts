@@ -13,3 +13,13 @@
  * 盆栽を消しても「場の光」としての四季は残る。
  */
 export const SHOW_BONSAI = false;
+
+/**
+ * 序の霧（KiriGlow）。2026-09-16 の実機確認で社長判断によりオフ。
+ *
+ * 注意: `--season-glow` を参照しているのはこの霧だけで、`--season-beam` を
+ * 参照していたのは BonsaiFigure だけだった。したがって両方オフの現在、
+ * SeasonController が計算している四季は**画面上に一切現れない**。
+ * 四季の演出を復活させるなら、どちらかを戻すか、季節を映す別の面を用意する必要がある。
+ */
+export const SHOW_KIRI_GLOW = false;
