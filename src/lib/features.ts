@@ -23,3 +23,16 @@ export const SHOW_BONSAI = false;
  * 四季の演出を復活させるなら、どちらかを戻すか、季節を映す別の面を用意する必要がある。
  */
 export const SHOW_KIRI_GLOW = false;
+
+/**
+ * スクロール連動の四季（SeasonController）。2026-09-16 に社長判断でオフ。
+ *
+ * 盆栽と霧を落とした結果、季節を映す面が1つも無くなったため、計算だけが走る状態に
+ * なっていた。オフにすると `--season-*` は tokens.css の初期値（新緑）で固定される。
+ *
+ * コードは削除していない。季節の純粋関数（season.ts）と単体テストは盆栽の実装と
+ * 共有しており、消すと盆栽側も道連れになるため。四季ごと不要と決まったら
+ * SeasonController / season.ts / seasonRuntime.ts / useSeasonBlend.ts /
+ * types/season.ts と盆栽一式をまとめて削除する。
+ */
+export const ENABLE_SEASON = false;

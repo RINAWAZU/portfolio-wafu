@@ -11,15 +11,13 @@ import { getDictionary } from '@/lib/i18n';
  * 高さ 520px は右の写真の高さと対になる値（`AboutProfile` 参照）。
  * 見出しとの間隔は `About` 側のグリッドが持つ（右ブロックと開始位置を揃えるため）。
  *
- * `md:w-fit`: 1カラム表示のときブロックがコンテンツ幅いっぱいに広がると、
- * `vertical-rl` は右端から流れるため文字が画面の右端まで飛んで左に大きな空白ができる。
- * 内容幅に縮めて見出しの真下に置く。2カラムになる `xl` 以上では列幅いっぱいに戻し、
- * 仕様書 §5.3 の「左に余白を大きく取り、文字を右に寄せる」非対称構成にする。
+ * `md:w-fit`: `vertical-rl` は右端から左へ流れるため、ブロックを幅いっぱいに広げると
+ * 文字がブロックの右端に張り付く。内容幅に縮めることで左端から並ぶ。
  *
- * `xl` 側が `w-auto` ではなく `w-full` なのは、縦書きでは `width` が行方向ではなく
- * **ブロック方向**になり、`auto` が「内容の列数ぶんに縮む」挙動になるため。
- * グリッド項目だったときは stretch で伸びていたが、`Reveal` で1段包んだ時点で
- * 内容幅に縮んで文字が左へ寄ってしまった（実測 416px → 197px）。
+ * 当初は `xl` 以上で `w-full` に戻し、仕様書 §5.3 の「左に余白を大きく取り、文字を
+ * 右に寄せる」非対称構成にしていた。しかし実機確認で、右カラムの写真+紹介文と合わせて
+ * 我セクションのブロックが軒並み右端に寄って見える（2026-09-16 社長指摘）ため、
+ * 全幅で `w-fit` に統一し、縦書きを左端に置く構成へ変更した。
  */
 export function AboutStatement() {
   const { lang } = useLang();
@@ -28,7 +26,7 @@ export function AboutStatement() {
   return (
     <Tategaki
       height="520px"
-      className="font-mincho text-[clamp(1.25rem,1.9vw,1.75rem)] font-semibold leading-[2.4] tracking-vert text-gofun md:w-fit xl:w-full"
+      className="font-mincho text-[clamp(1.25rem,1.9vw,1.75rem)] font-semibold leading-[2.4] tracking-vert text-gofun md:w-fit"
     >
       <span className="block">{line1}</span>
       <span className="block">{line2}</span>
