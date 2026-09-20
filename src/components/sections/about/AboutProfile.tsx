@@ -19,6 +19,14 @@ import { TagList } from './TagList';
  * 親グリッドの `auto` トラックが max-content を確定できずトラック幅が縮み、
  * その結果 `flex-wrap` が発動して写真と紹介文が縦積みになってしまう。
  * `< sm` はコンテナ幅いっぱい(`w-full`)に縮めて横スクロールを防ぐ。
+ *
+ * 紹介文カラムは当初ハイファイどおり 300px だったが、**紹介文の2文が必ず2行に割れ、
+ * 最終行が「中。」の1文字+句点になっていた**（社長指摘・2026-09-20）。
+ * 本文サイズは `clamp(15px, 1.1vw, 17px)` で伸びるのにカラムが固定だったのが原因で、
+ * 実測すると1行に必要な幅は 308px（15px 時）〜349px（17px 時）。文字を縮めずに収めるため
+ * カラム側を広げた ─ `sm` で 320px、`xl` で 380px。**この2値を縮めると2行に戻る。**
+ * `xl` 未満で 380px にしないのは、1024px 幅だと写真(416)+gap(36)+段 が入りきらず
+ * 紹介文が写真の下へ段落ちするため（実測で上限 364px）。
  */
 export function AboutProfile() {
   const { lang } = useLang();
@@ -41,7 +49,19 @@ export function AboutProfile() {
         />
         <p className="absolute bottom-4 left-5 font-mono text-[10px] tracking-[.2em] text-kincha">{t.avatarTag}</p>
       </div>
-      <div className="w-full font-brush text-body leading-[2.1] text-gofun/82 sm:w-[300px]">
+      {/*
+        紹介文の書体は `ja` のときだけ筆文字にする（社長判断・2026-09-20）。
+        Yuji Syuku のサブセットは和文の文言から起こした英字（`AIOSTWbei` と `0247`）しか
+        持たないため、EN では宣言済みの字だけ筆文字・残りはシステムのサンセリフになり、
+        単語の途中で書体が変わっていた（"Technology" の T だけ筆文字）。
+        ASCII 全域を足して英文も筆文字にする案もあったが、筆書体は英文の本文組み用に
+        作られていないため、EN は本文書体（Zen Kaku Gothic New）に寄せる。
+      */}
+      <div
+        className={`w-full text-body leading-[2.1] text-gofun/82 sm:w-[320px] xl:w-[380px] ${
+          lang === 'ja' ? 'font-brush' : 'font-body'
+        }`}
+      >
         {bio1}
         <br />
         {bio2}

@@ -47,7 +47,7 @@ export function WorkTanzaku({ work }: WorkTanzakuProps) {
       <span className="flex flex-col items-center gap-1.5 font-mono text-[11px] text-kincha">
         {work.no}
         {work.href && (
-          <span aria-hidden="true" className="text-[9px] leading-none">
+          <span aria-hidden="true" className="text-[10px] leading-none">
             ↗
           </span>
         )}

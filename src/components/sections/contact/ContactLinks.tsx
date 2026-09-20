@@ -8,7 +8,7 @@ function SocialLinkRow({ link }: { readonly link: SocialLink }) {
       href={link.href}
       target={link.external ? '_blank' : undefined}
       rel={link.external ? 'noopener noreferrer' : undefined}
-      className="flex items-center justify-between border-b border-hairline pb-1.5 transition-colors duration-[0.4s] ease-out hover:text-kincha"
+      className="flex flex-wrap items-center justify-between gap-x-3 border-b border-hairline pb-1.5 transition-colors duration-[0.4s] ease-out hover:text-kincha"
     >
       <span className="text-gofun/60 uppercase">{link.label}</span>
       <span>
@@ -27,7 +27,14 @@ function SocialLinkRow({ link }: { readonly link: SocialLink }) {
 export function ContactLinks() {
   return (
     <div className="mt-9 flex flex-col gap-2.5 font-mono text-xs tracking-[.1em]">
-      <div className="flex items-center justify-between border-b border-hairline pb-1.5">
+      {/*
+        `flex-wrap`: メールアドレスは途中で折れない1語（実測 176px）。320px 幅では
+        本文の使える幅がちょうど 176px しかなく、ラベルと横並びのままだと必ず溢れて
+        ページ全体が横スクロールしていた（2026-09-20 実測 338px > 320px）。
+        収まらないときだけ値を次の行へ落とす。`break-all` は
+        「awazurin551@gmai / l.com」と語中で割れるので使わない。
+      */}
+      <div className="flex flex-wrap items-center justify-between gap-x-3 border-b border-hairline pb-1.5">
         <span className="text-gofun/60">EMAIL</span>
         <a href={`mailto:${CONTACT_EMAIL}`} className="transition-colors duration-[0.4s] ease-out hover:text-kincha">
           {CONTACT_EMAIL}
