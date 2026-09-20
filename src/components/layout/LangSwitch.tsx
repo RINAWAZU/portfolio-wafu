@@ -24,7 +24,14 @@ export function LangSwitch() {
 
   return (
     <div className="fixed bottom-8 left-0 z-[20] flex w-nav justify-center lg:top-8 lg:right-12 lg:bottom-auto lg:left-auto lg:w-auto lg:justify-end">
-      <div className="flex items-center gap-2.5 font-mono text-xs tracking-latin lg:gap-4">
+      {/*
+        `sm` 未満だけ間隔を詰める。縦ナビが 56px に細くなる幅で `gap-2.5` のままだと
+        「EN / JP」が 70px になり、レールの罫線を 7px 跨いでいた（2026-09-20 実測）。
+        `gap-0.5` で 53px に収まる。**字間（`tracking-latin`）は詰めないこと** ─
+        字間を詰めると各ボタンの当たり判定が 20px → 14px まで痩せ、ただでさえ小さい
+        タップ領域がさらに小さくなる（DEVLOG 3-2）。`sm` 以上はナビが 96px に戻るので従来どおり。
+      */}
+      <div className="flex items-center gap-0.5 font-mono text-xs tracking-latin sm:gap-2.5 lg:gap-4">
         <button
           type="button"
           onClick={() => setLang('en')}
