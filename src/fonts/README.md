@@ -6,7 +6,7 @@
 | 書体 | 役割 | 実体 | 再生成 |
 |---|---|---|---|
 | Yuji Syuku | 筆文字（下記5箇所のみ） | `YujiSyuku-subset.woff2` | `npm run font:subset`（文字は手動列挙） |
-| Shippori Mincho B1 400/600 | 和文見出し・タグライン | `ShipporiMinchoB1-{400,600}-subset.woff2` | `npm run font:subset:jp`（**文字はソースから自動抽出**） |
+| Shippori Mincho B1 400/600 | 和文見出し・タグライン | `ShipporiMinchoB1-{400,600}-subset.woff2` | `npm run font:measure` → `npm run font:subset:jp`（**文字は実サイトのDOMから書体別に実測**） |
 | Zen Kaku Gothic New 400 | 和文本文 | `ZenKakuGothicNew-400-subset.woff2` | 同上 |
 
 ## なぜ自前サブセットなのか
@@ -94,19 +94,40 @@ const yuji = localFont({
 
 ### 再生成
 
+文言を変えたら、**実測 → 生成**の2段で流し直す。
+
 ```bash
-npm run font:subset:jp
+npm run build && npm run start      # 別ターミナルで本番ビルドを起動しておく
+npm run font:measure                # 実サイトの DOM から書体×ウェイトごとの使用文字を実測
+npm run font:subset:jp              # その文字集合で 3 つの woff2 を生成
 ```
 
-`scripts/subset-jp-fonts.mjs` が以下を行う。
+| 文字集合ファイル | 対象 | 中身 |
+|---|---|---|
+| `mincho-400.chars.txt` | 明朝 400 | 実測（JP/EN × モバイル/デスクトップ）+ ASCII・約物 |
+| `mincho-600.chars.txt` | 明朝 600 | 同上（見出し・タグライン・プラン名など） |
+| `zen-400.chars.txt` | Zen 角ゴ 400 | 同上 + ひらがな・カタカナ全域 + 問い合わせ周りの文字列リテラル |
 
-1. `src/**/*.{ts,tsx}` の**文字列リテラルと JSX テキストから使用文字を自動抽出**する
-2. 保険として ASCII・ひらがな・カタカナ・約物の全域を常に足す（現在 663 文字）
-3. `python3 -m fontTools.subset` で 3 つの woff2 を生成する
-4. 抽出結果を `jp.chars.txt` に書き出す（差分を見れば何が増減したか分かる）
+- `scripts/measure-font-usage.mjs`（`puppeteer-core` + Chrome）が全テキストノードと placeholder を集め、
+  親要素の computed style（font-family / font-weight）で書体を判定する。
+- `scripts/subset-jp-fonts.mjs` が `python3 -m fontTools.subset` で woff2 を生成する。
+  `fonttools` を入れた venv を使うときは `PYTHON=/path/to/python npm run font:subset:jp`。
+- 開発サーバーが `localhost:3000` 以外なら `BASE_URL=http://localhost:3100/ npm run font:measure`。
 
-文字集合はソースから自動で作られるため、**文言を変えたらこのコマンドを流し直すだけでよい**
-（Yuji Syuku のように手で文字を列挙する必要はない）。流し忘れると追加した漢字が豆腐（□）になる。
+### なぜ書体別に実測するのか
+
+以前は「ソースの文字列リテラル」から全書体に**同じ 663 字**を積んでいた（3 書体で 300KB）。
+実際に描かれるのは明朝 600 が約 110 字、明朝 400 が約 190 字、Zen が約 200 字にすぎない。
+実測に切り替えて **300KB → 約 96KB**になった。旧方式は取りこぼしもあり、
+実測後はシステム書体（Hiragino）に落ちていた 14 字が配信フォントで描かれるようになった。
+
+**実測でも数えられないもの**は、操作した後にだけ出る文言（フォームの検証エラー・送信結果）と
+疑似要素の `content`。前者は Zen の文字集合にソースの文字列リテラルとかな全域を足して補っている。
+明朝は見出しと静的文言だけなので補っていない。**明朝で操作後にだけ出る文言を足したときは
+`scripts/measure-font-usage.mjs` の `EXTRA_*` を見直すこと。**
+
+抜けた文字は豆腐ではなく、`font-family` のフォールバック（`serif` / `sans-serif`）で
+その文字だけシステム書体になる。気づきにくい劣化なので、文言を変えたら流し直す。
 
 ### 原本の入手先
 
@@ -125,4 +146,4 @@ curl -LO https://github.com/google/fonts/raw/main/ofl/zenkakugothicnew/ZenKakuGo
 
 Zen Kaku Gothic New の **weight 500 は読み込まない**（実装上どこからも使われていないため）。
 本文に `font-medium` を使いたくなった場合は、このファイルに追記したうえで
-`scripts/subset-jp-fonts.mjs` の `FONTS` に 500 のサブセットを足すこと。
+`scripts/subset-jp-fonts.mjs` の `FONTS` と `scripts/measure-font-usage.mjs` の `bucketOf` に 500 を足すこと。

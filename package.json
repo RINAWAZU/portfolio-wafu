@@ -9,6 +9,7 @@
     "lint": "eslint",
     "font:subset": "bash scripts/subset-font.sh",
     "test": "vitest run",
+    "font:measure": "node scripts/measure-font-usage.mjs",
     "font:subset:jp": "node scripts/subset-jp-fonts.mjs",
     "bonsai:optimize": "bash scripts/optimize-bonsai.sh",
     "check:contrast": "node scripts/check-contrast.mjs"
@@ -30,6 +31,7 @@
     "@types/three": "^0.186.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
+    "puppeteer-core": "^25.11.0",
     "sharp": "^0.35.4",
     "tailwindcss": "^4",
     "typescript": "^5",
