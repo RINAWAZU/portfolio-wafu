@@ -13,3 +13,17 @@ export function formatPlanPrice(plan: Plan): string {
   const suffix = plan.unit === 'month' ? '/月〜' : '〜';
   return `${formatYen(plan.price)}${suffix}`;
 }
+
+/**
+ * URL の末尾セグメントから `@handle` 表記を導く（結の外部リンクと作の GitHub 導線が共用）。
+ * ラベルとは別にハンドル文字列を持たせると URL との二重管理になるため、URL から導く。
+ */
+export function handleFromHref(href: string): string {
+  try {
+    const url = new URL(href);
+    const last = url.pathname.replace(/\/$/, '').split('/').pop();
+    return last ? `@${last}` : href;
+  } catch {
+    return href;
+  }
+}

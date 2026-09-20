@@ -17,6 +17,13 @@
  *   （Lighthouse モバイル: FCP 8.1s / Performance 55）。
  *   使用文字だけの自前サブセットにすれば @font-face は 1 書体 1 定義で済む。
  *
+ * **`vert` / `vrt2` は絶対に落とさないこと**（`LAYOUT_FEATURES`）:
+ *   縦書きの「ー」（U+30FC）はブラウザが自動で回してくれない。長音符はカタカナブロックにあり
+ *   Unicode の Vertical_Orientation が「直立」のため、**字形そのものを差し替える**フォント側の
+ *   `vert`/`vrt2` が無いと横棒のまま縦組みに出る。全角括弧の向きと読点の位置も同じ機能が持つ。
+ *   以前ここを `--layout-features=`（＝全機能を落とす）にしていたため、サイト全体の縦書きで
+ *   長音符が横棒になっていた（2026-09-20 社長指摘）。この2機能で 3 書体合計 +19KB。
+ *
  * 前提: python3 + fonttools + brotli、`src/fonts/src/*.ttf`（google/fonts の OFL 版）
  *       python3 は環境変数 PYTHON で差し替えられる（fonttools を入れた venv を使う場合）。
  */
@@ -29,6 +36,12 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const FONT_SRC = join(ROOT, 'src/fonts/src');
 const OUT_DIR = join(ROOT, 'src/fonts');
 const PYTHON = process.env.PYTHON ?? 'python3';
+
+/**
+ * 残す OpenType 機能。既定では fontTools が liga/calt など多数を残すため、縦組みに必要な
+ * 2つだけに絞る。**空にしてはいけない**（ヘッダの「vert / vrt2 は絶対に落とさないこと」）。
+ */
+const LAYOUT_FEATURES = 'vert,vrt2';
 
 const FONTS = [
   { ttf: 'ShipporiMinchoB1-Regular.ttf', chars: 'mincho-400.chars.txt', out: 'ShipporiMinchoB1-400-subset.woff2' },
@@ -46,7 +59,15 @@ for (const font of FONTS) {
   }
   execFileSync(
     PYTHON,
-    ['-m', 'fontTools.subset', src, `--text-file=${charsFile}`, '--flavor=woff2', '--layout-features=', `--output-file=${out}`],
+    [
+      '-m',
+      'fontTools.subset',
+      src,
+      `--text-file=${charsFile}`,
+      '--flavor=woff2',
+      `--layout-features=${LAYOUT_FEATURES}`,
+      `--output-file=${out}`,
+    ],
     { stdio: 'inherit' },
   );
   console.log(`生成: ${font.out} (${(statSync(out).size / 1024).toFixed(1)} KB)`);

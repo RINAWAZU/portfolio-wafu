@@ -62,6 +62,8 @@ const CASES = [
   ['作面 本文 胡粉100%', over(GOFUN, 1, WORKS), WORKS, 4.5],
   ['作面 金茶', KINCHA, WORKS, 4.5],
   ['作面 未着手 胡粉60%', over(GOFUN, 0.6, WORKS), WORKS, 4.5],
+  ['作面 概要 胡粉70%', over(GOFUN, 0.7, WORKS), WORKS, 4.5],
+  ['作面 GitHub案内 胡粉55%', over(GOFUN, 0.55, WORKS), WORKS, 4.5],
   ['落款「済」真朱（作面）', SHINSHU_DARK, WORKS, 3.0],
   ['和紙面 本文 墨', SUMI, KINARI, 4.5],
   ['和紙面 欧文ラベル 真朱', SHINSHU, KINARI, 4.5],

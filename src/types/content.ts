@@ -31,6 +31,13 @@ export interface Work {
   /** 'delivered' のときのみ落款「済」。他は破線枠で状態ラベルを出す */
   readonly status: WorkStatus;
   readonly stack: readonly string[];
+  /**
+   * 作品そのものを見に行ける URL。`null` の作品は短冊がリンクにならない。
+   *
+   * 死んだリンクを置かない方針のため、**公開済みで実際に開ける URL だけ**を入れる
+   * （`SOCIAL_LINKS` と同じ扱い）。未公開・未着手の作品は `null` のままにする。
+   */
+  readonly href: string | null;
   /** 現行データの保全用。初期実装では未描画（§12-3） */
   readonly description: LocalizedText;
 }

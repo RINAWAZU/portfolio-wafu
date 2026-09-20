@@ -114,6 +114,18 @@ npm run font:subset:jp              # その文字集合で 3 つの woff2 を�
   `fonttools` を入れた venv を使うときは `PYTHON=/path/to/python npm run font:subset:jp`。
 - 開発サーバーが `localhost:3000` 以外なら `BASE_URL=http://localhost:3100/ npm run font:measure`。
 
+### 🔴 `vert` / `vrt2` を落とさない（縦組みが壊れる）
+
+サブセット時に OpenType 機能を全部落とすと（`--layout-features=`）、**縦書きの「ー」が横棒のまま出る**。
+
+長音符 U+30FC はカタカナブロックにあり Unicode の Vertical_Orientation が「直立」なので、
+ブラウザは回してくれない。縦組みの字形は**フォント側の `vert`/`vrt2` が字形ごと差し替えて**作る。
+全角括弧（　）の向きと、読点・句点が右上に寄る配置も同じ機能が持っている。
+
+2026-09-20 に社長指摘で発覚（我の「コード」、作 02 の「（本サイト）」）。
+`scripts/subset-jp-fonts.mjs` の `LAYOUT_FEATURES = 'vert,vrt2'` がこれを担保している。**空にしないこと。**
+この2機能のぶん 3 書体合計で +19KB（98KB → 117KB）。縦組みの正しさと引き換えに払う。
+
 ### なぜ書体別に実測するのか
 
 以前は「ソースの文字列リテラル」から全書体に**同じ 663 字**を積んでいた（3 書体で 300KB）。

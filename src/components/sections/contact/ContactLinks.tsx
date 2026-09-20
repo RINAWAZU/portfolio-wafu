@@ -1,16 +1,6 @@
 import { CONTACT_EMAIL, SOCIAL_LINKS } from '@/content/profile';
+import { handleFromHref } from '@/lib/format';
 import type { SocialLink } from '@/types/content';
-
-/** URL の末尾セグメントから `@handle` 表記を導く(ラベルとは別にハンドル文字列を持たないため)。 */
-function handleFromHref(href: string): string {
-  try {
-    const url = new URL(href);
-    const last = url.pathname.replace(/\/$/, '').split('/').pop();
-    return last ? `@${last}` : href;
-  } catch {
-    return href;
-  }
-}
 
 function SocialLinkRow({ link }: { readonly link: SocialLink }) {
   return (

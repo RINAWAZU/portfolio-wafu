@@ -34,6 +34,12 @@ export interface Dictionary {
      * 受託実績と誤解されない言い回しにすること(社長指摘・2026-09-16)。
      */
     readonly blurb: readonly [string, string];
+    /**
+     * 左カラムの案内文(社長指示・2026-09-20)。GitHub への導線と、
+     * 「短冊そのものが押せる」ことの説明を兼ねる。
+     * 全作品にリンクがあるわけではないので、断定しない言い回しにすること。
+     */
+    readonly more: string;
   };
   readonly skills: {
     readonly label: string;
@@ -96,6 +102,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dictionary>> = {
       title: ['動き続ける', 'ポートフォリオ。'],
       sub: '完成3件、制作中1件、構想中2件。いずれも依頼を受けた案件ではなく、扱える領域を示すために自ら設計した作品です — ブランドサイト、業務ツール、AIサーフェス、コーポレートWeb。',
       blurb: ['技術の幅を示すために', '自ら企画して作った作品'],
+      more: '詳しくは GitHub から。公開している作品は短冊を選ぶと開きます。',
     },
     skills: {
       label: 'Tech Stack',
@@ -154,6 +161,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dictionary>> = {
       title: ['A portfolio in', 'motion.'],
       sub: 'Three complete, one in build, two in design. None of these are client commissions — each is a self-directed study in a specific problem: brand site, business tool, AI surface, corporate web.',
       blurb: ['Self-directed work, built to', 'show range and craft'],
+      more: 'More on GitHub. Published works open from their card.',
     },
     skills: {
       label: 'Tech Stack',

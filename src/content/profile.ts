@@ -19,6 +19,12 @@ export const PROFILE_TAGS: readonly ProfileTag[] = [
 export const CONTACT_EMAIL = 'awazurin551@gmail.com';
 
 /**
+ * GitHub アカウント。結（`SOCIAL_LINKS`）と作（`WORKS` の 01・`WorksSummary`）の
+ * 両方が参照するため、URL の実体はここ1箇所に置く。
+ */
+export const GITHUB_URL = 'https://github.com/RINAWAZU';
+
+/**
  * 結（Contact）の外部リンク。`ContactLinks` と `SiteFooter` の両方がこの配列を参照する。
  *
  * X は 2026-09-15 に社長がハンドルを `@rin_devcodes` と確定（旧サイトは `@rin_engineer` と
@@ -27,6 +33,6 @@ export const CONTACT_EMAIL = 'awazurin551@gmail.com';
  * 死んだリンクを置かないという方針のため、確定するまでこの配列に追加しないこと。
  */
 export const SOCIAL_LINKS: readonly SocialLink[] = [
-  { key: 'github', label: 'GitHub', href: 'https://github.com/RINAWAZU', external: true },
+  { key: 'github', label: 'GitHub', href: GITHUB_URL, external: true },
   { key: 'x', label: 'X / Twitter', href: 'https://x.com/rin_devcodes', external: true },
 ];
