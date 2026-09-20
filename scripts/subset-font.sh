@@ -15,6 +15,12 @@
 #   我の紹介文 / 序のサブコピー / モバイル縦ナビの一文字）を変更したら、
 #   yuji-syuku.chars.txt を更新してこのスクリプトを再実行すること。
 #   再実行しないと変更後の文言が「豆腐（tofu）」表示になる。
+#
+#   --layout-features は vert,vrt2 を必ず残すこと（空にしない）。
+#   縦組みの「ー」はブラウザが回してくれず、フォント側のこの2機能が字形ごと
+#   差し替えて作っている。空にすると縦書きで長音符が横棒のまま出る
+#   （2026-09-20 に和文2書体で実際に踏んだ。詳細は src/fonts/README.md）。
+#   筆文字は現状すべて横組みか一文字だが、縦組みに使った瞬間に破綻するので先に塞ぐ。
 
 set -euo pipefail
 
@@ -23,6 +29,9 @@ FONTS_DIR="$SCRIPT_DIR/../src/fonts"
 SRC_TTF="$FONTS_DIR/src/YujiSyuku-Regular.ttf"
 CHARS_FILE="$FONTS_DIR/yuji-syuku.chars.txt"
 OUT_WOFF2="$FONTS_DIR/YujiSyuku-subset.woff2"
+# fonttools を venv に入れている場合は PYTHON=/path/to/python で差し替えられる
+# （scripts/subset-jp-fonts.mjs と同じ約束）。
+PYTHON="${PYTHON:-python3}"
 
 if [ ! -f "$SRC_TTF" ]; then
   echo "エラー: $SRC_TTF が見つかりません。" >&2
@@ -37,15 +46,15 @@ if [ ! -f "$CHARS_FILE" ]; then
   exit 1
 fi
 
-if ! python3 -c "import fontTools" >/dev/null 2>&1; then
+if ! "$PYTHON" -c "import fontTools" >/dev/null 2>&1; then
   echo "fonttools が見つからないためインストールします..."
   pip3 install fonttools brotli
 fi
 
-python3 -m fontTools.subset "$SRC_TTF" \
+"$PYTHON" -m fontTools.subset "$SRC_TTF" \
   --text-file="$CHARS_FILE" \
   --flavor=woff2 \
-  --layout-features='' \
+  --layout-features='vert,vrt2' \
   --output-file="$OUT_WOFF2"
 
 echo "生成しました: $OUT_WOFF2"

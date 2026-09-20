@@ -93,7 +93,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dictionary>> = {
     about: {
       statement: ['作業ではなくクラフト', '界面を建築として設計する', '質感もコードと同じ重さで'],
       bio: [
-        '芝浦工業大学 システム理工学部 在学中（休学・フリーランス専念）。',
+        '芝浦工業大学 システム理工学部 在学中。',
         '2027年4月、金融系IT企業に新卒入社予定。',
       ],
     },
@@ -152,7 +152,7 @@ export const DICTIONARY: Readonly<Record<Lang, Dictionary>> = {
     about: {
       statement: ['Craft, not a checklist.', 'Interfaces designed as architecture.', 'Texture weighed like code.'],
       bio: [
-        'Systems Engineering at Shibaura Institute of Technology, on leave to focus on freelance work.',
+        'Systems Engineering at Shibaura Institute of Technology.',
         'Joining a financial IT company in April 2027.',
       ],
     },
